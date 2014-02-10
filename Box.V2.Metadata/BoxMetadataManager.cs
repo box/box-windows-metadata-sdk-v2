@@ -13,7 +13,11 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    public class BoxMetadataManager : BoxResourceManager, IBoxMetadataManager
+    /// <summary>
+    /// Box Resource manager for the Metadata endpoint 
+    /// This endpoint is currently in beta and must be added to the Box Client through the Resource Plugin interface
+    /// </summary>
+    public class BoxMetadataManager : BoxResourceManager
     {
         private const string MetadataEndpointPath = @"files/{0}/metadata/";
         private const string JsonPatchContentType = "application/json-patch+json";
@@ -22,6 +26,11 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth) { }
 
 
+        /// <summary>
+        /// Retrieves the metadata for the given file id
+        /// </summary>
+        /// <param name="id">ID of the file to retrieve metadata from</param>
+        /// <returns></returns>
         public async Task<BoxMetadata> GetMetadata(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -33,50 +42,13 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        //public async Task<BoxMetadata> AddMetadata(string id, string name, string value)
-        //{
-        //    id.ThrowIfNullOrWhiteSpace("id");
-        //    name.ThrowIfNullOrWhiteSpace("name");
-
-        //    var metadataRequest = new BoxMetadataRequest
-        //    {
-        //        Op = BoxMetadataOperations.Add,
-        //        Path = "/" + name,
-        //        Value = value
-        //    };
-
-        //    return await EditMetadata(id, new BoxMetadataRequest[] { metadataRequest }).ConfigureAwait(false);
-        //}
-
-        //public async Task<BoxMetadata> RemoveMetadata(string id, string name)
-        //{
-        //    id.ThrowIfNullOrWhiteSpace("id");
-        //    name.ThrowIfNullOrWhiteSpace("name");
-
-        //    var metadataRequest = new BoxMetadataRequest
-        //    {
-        //        Op = BoxMetadataOperations.Remove,
-        //        Path = "/" + name
-        //    };
-
-        //    return await EditMetadata(id, new BoxMetadataRequest[] { metadataRequest }).ConfigureAwait(false);
-        //}
-
-        //public async Task<BoxMetadata> TestMetadata(string id, string name, string value)
-        //{
-        //    id.ThrowIfNullOrWhiteSpace("id");
-        //    name.ThrowIfNullOrWhiteSpace("name");
-
-        //    var metadataRequest = new BoxMetadataRequest
-        //    {
-        //        Op = BoxMetadataOperations.Test,
-        //        Path = "/" + name,
-        //        Value = value
-        //    };
-
-        //    return await EditMetadata(id, new BoxMetadataRequest[] { metadataRequest }).ConfigureAwait(false);
-        //}
-
+        /// <summary>
+        /// Send a collection of BoxMetadataRequests 
+        /// The current available actions include: Add, Edit, Test, and Remove
+        /// </summary>
+        /// <param name="id">ID of the file to edit the metadata of</param>
+        /// <param name="metadataRequests">The collection of metadata operations</param>
+        /// <returns></returns>
         public async Task<BoxMetadata> EditMetadata(string id, BoxMetadataRequest[] metadataRequests)
         {
             id.ThrowIfNullOrWhiteSpace("id");
