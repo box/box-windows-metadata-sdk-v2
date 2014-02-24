@@ -36,7 +36,6 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            //BoxMetadata md = await _client.Plugins.GetResource<BoxMetadataManager>().GetMetadata("fakeId");
             BoxMetadata md = await _metadataManager.GetMetadata("fakeId");
 
             /*** Assert ***/
@@ -46,7 +45,6 @@ namespace Box.V2.Test
             Assert.AreEqual("Employment Litigation", md["case_type"]);
             Assert.AreEqual("Francis Burke", md["assigned_attorney"]);
             Assert.AreEqual("in-progress", md["case_status"]);
-
         }
 
         [TestMethod]

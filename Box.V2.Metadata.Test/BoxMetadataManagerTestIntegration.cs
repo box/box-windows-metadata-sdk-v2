@@ -9,12 +9,31 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxMetadataManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        const string _fileId = "14021319429";
+        const string _fileId = "YOUR_TEST_FILEID";
 
         public BoxMetadataManagerTestIntegration()
         {
             _client.AddResourcePlugin<BoxMetadataManager>();
         }
+
+        [TestMethod]
+        public async Task AddMetadata_LiveSession_ValidResponse()
+        {
+            /*** Arrange ***/
+            var req = new BoxMetadataRequest[] 
+            { 
+                new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path = "/case_type", Value="Employment Litigation"},
+                new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path = "/assigned_attorney", Value="Francis Burke"},
+                new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path = "/case_status", Value="in-progress"},
+            };
+
+            /*** Act ***/
+            BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().EditMetadata(_fileId, req);
+
+            /*** Assert ***/
+            Assert.IsTrue(md.Count > 0);
+        }
+
 
         [TestMethod]
         public async Task GetMetadata_LiveSession_ValidResponse()
@@ -23,9 +42,6 @@ namespace Box.V2.Test.Integration
             BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().GetMetadata(_fileId);
 
             /*** Assert ***/
-            Assert.AreEqual("820183", md["client_number"]);
-            Assert.AreEqual("Biomedical Corp", md["client_name"]);
-            Assert.AreEqual("A83JAA", md["case_reference"]);
             Assert.AreEqual("Employment Litigation", md["case_type"]);
             Assert.AreEqual("Francis Burke", md["assigned_attorney"]);
             Assert.AreEqual("in-progress", md["case_status"]);
