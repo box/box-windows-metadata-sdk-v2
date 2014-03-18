@@ -21,12 +21,22 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = "op")]
         public BoxMetadataOperations Op { get; set; }
 
+        private string _path = null;
         /// <summary>
         /// The key of the metadata
-        /// Do not prefix this path with '/' as the documenation states as the SDK automatically prepends this
         /// </summary>
         [JsonProperty(PropertyName = "path")]
-        public string Path { get; set; }
+        public string Path 
+        { 
+            get { return _path; }
+            set
+            {
+                // SDK automatically inserts the required '/' if it is not included
+                if (value.StartsWith("/"))
+                    _path = value;
+                _path = value.Insert(0, "/");
+            }
+        }
 
         /// <summary>
         /// The value of the metadata
@@ -44,6 +54,8 @@ namespace Box.V2.Models
     {
         [EnumMember(Value="add")]
         Add,
+        [EnumMember(Value = "replace")]
+        Replace,
         [EnumMember(Value="remove")]
         Remove,
         [EnumMember(Value="test")]

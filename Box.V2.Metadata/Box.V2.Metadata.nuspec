@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Box.V2.Metadata</id>
+    <version>1.0</version>
+    <title>Box Windows Metadata SDK</title>
+    <authors>Box, Inc.</authors>
+    <owners>Box, Inc.</owners>
+    <projectUrl>https://github.com/box/box-windows-sdk-v2-metadata</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Metadata plugin for the Windows SDK of the Box v2 API. This package depends on Box.V2 and augments the SDK with the Metadata endpoints</description>
+    <releaseNotes>Endpoint bug fixes</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>Metadata Meta Data Box V2 SDK Collaboration Storage File Management</tags>
+  </metadata>
+</package>

@@ -36,6 +36,9 @@
     <Compile Include="BoxMetadata.cs" />
     <Compile Include="BoxMetadataManager.cs" />
     <Compile Include="BoxMetadataRequest.cs" />
+    <Compile Include="Converter\BoxMetadataContractResolver.cs" />
+    <Compile Include="Converter\BoxMetadataConverter.cs" />
+    <Compile Include="Converter\BoxMetadataJsonConverter.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
