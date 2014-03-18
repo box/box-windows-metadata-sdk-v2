@@ -14,7 +14,7 @@ have questions, send an email to metadata-beta@box.com.
 ###Prerequisites
 * Git  
 * Visual Studio 2012 w/ Update 2 CTP  
-* Box.V2 SDK (referenced in library)
+* Box.V2 SDK (please allow nuget to automatically download missing packages)
 
 ###Overview
 This is a plugin for [box-windows-sdk-v2](https://github.com/box/box-windows-sdk-v2) 
@@ -36,16 +36,36 @@ Initialize the BoxConfig and BoxClient as you normally would. The addition of th
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, "https://boxsdk");
 var client = new BoxClient(config).AddResourcePlugin<BoxMetadataManager>();
 
-// Retrieve the MetadataManager through the resource plugin manager
-BoxMetadata getMD = await _client.ResourcePlugins.Get<BoxMetadataManager>().GetMetadata("YOUR_FILE_ID");
+// Initialize the properties instance type and add metadata 
+Dictionary<string, string> mdReq = new Dictionary<string, string>() 
+            {
+                { "client_number","820183"}, 
+                { "client_name", "Biomedical Corp"}, 
+                { "case_reference", "A83JAA"}, 
+                { "case_type", "Employment Litigation"}, 
+                { "assigned_attorney", "Francis Burke" },
+                { "case_status", "in-progress"}
+            };
+BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().CreateMetadata("YOUR_FILE_ID", mdReq);
 
-// Create a BoxMetadataRequest object to add, edit, test, or remove metadata
-var req = new BoxMetadataRequest[] 
-{ 
-    new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path = "/key", Value="value"},
-    new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path = "/key2", Value="value2"}
+// Retrieve the newly created metadata
+BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().GetMetadata(TestFileId);
+
+// Update the existing metadata
+var mdReq = new BoxMetadataRequest[]
+{
+    new BoxMetadataRequest() { Op = BoxMetadataOperations.Test, Path="assigned_attorney", Value="Francis Burke"},
+    new BoxMetadataRequest() { Op = BoxMetadataOperations.Replace, Path="assigned_attorney", Value="Eugene Huang"},
+    new BoxMetadataRequest() { Op = BoxMetadataOperations.Test, Path="case_status", Value="in-progress"},
+    new BoxMetadataRequest() { Op = BoxMetadataOperations.Remove, Path="case_status", Value="Francis Burke"},
+    new BoxMetadataRequest() { Op = BoxMetadataOperations.Add, Path="retention_length", Value="7_years"}
 };
-BoxMetadata editMD = await _client.ResourcePlugins.Get<BoxMetadataManager>().EditMetadata(_fileId, req);
+
+BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().UpdateMetadata(TestFileId, mdReq);
+
+
+// A convenience method is available for creating metadata that will first try the create endpoint, and if the type instance is already available, will automatically retry with the updates endpoint
+BoxMetadata md = await _client.ResourcePlugins.Get<BoxMetadataManager>().CreateOrUpdateMetadata(TestFileId, mdReq);
 
 ```
 
