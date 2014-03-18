@@ -60,6 +60,7 @@ namespace Box.V2.Managers
         public async Task<BoxMetadata> CreateMetadata(string id, Dictionary<string,string> metadata, string typeInstance = DefaultTypeInstance)
         {
             id.ThrowIfNullOrWhiteSpace("id");
+            metadata.ThrowIfNull("metadata");
 
             BoxRequest request = new BoxRequest(new Uri(Constants.BoxApiUriString + string.Format(CultureInfo.InvariantCulture, MetadataEndpointPath, id, typeInstance)))
                 .Method(RequestMethod.Post);

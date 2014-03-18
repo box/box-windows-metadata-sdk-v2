@@ -32,9 +32,14 @@ namespace Box.V2.Models
             set
             {
                 // SDK automatically inserts the required '/' if it is not included
-                if (value.StartsWith("/"))
+                if(value == null || value.StartsWith("/"))
+                {   
                     _path = value;
-                _path = value.Insert(0, "/");
+                } 
+                else
+                {
+                    _path = value.Insert(0, "/");
+                }
             }
         }
 
