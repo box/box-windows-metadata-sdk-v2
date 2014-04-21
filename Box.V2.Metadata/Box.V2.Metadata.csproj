@@ -36,7 +36,6 @@
     <Compile Include="BoxMetadata.cs" />
     <Compile Include="BoxMetadataManager.cs" />
     <Compile Include="BoxMetadataRequest.cs" />
-    <Compile Include="Converter\BoxMetadataContractResolver.cs" />
     <Compile Include="Converter\BoxMetadataConverter.cs" />
     <Compile Include="Converter\BoxMetadataJsonConverter.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
@@ -50,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Box.V2">
-      <HintPath>..\packages\Box.V2.1.1.0.1\lib\portable-net40+sl50+wp80+win\Box.V2.dll</HintPath>
+      <HintPath>..\packages\Box.V2.1.1.1\lib\portable-net40+sl50+wp80+win\Box.V2.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\portable-net40+sl4+win8+wp71\Microsoft.Threading.Tasks.dll</HintPath>
