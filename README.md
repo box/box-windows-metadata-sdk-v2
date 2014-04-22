@@ -33,7 +33,7 @@ Initialize the BoxConfig and BoxClient as you normally would. The addition of th
 
 ```c#
 // Initialize the client with the MetadataManager plugin
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, "https://boxsdk");
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("https://boxsdk"));
 var client = new BoxClient(config).AddResourcePlugin<BoxMetadataManager>();
 
 // Initialize the properties instance type and add metadata 
